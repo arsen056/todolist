@@ -1,9 +1,13 @@
 import {FilterType} from "./FilterType";
+import {StatusType} from "./AppStatusType";
 
-export type TodoListStateType = TodoListType[];
+export type TodoListsType = TodoListStateType[];
 
-export type TodoListType = {
+export type TodoListStateType = TodoListResponseType & {filter: FilterType, entityStatus: StatusType}
+
+export type TodoListResponseType = {
+    addedDate: string
     id: string
+    order: number
     title: string
-    filter: FilterType
 }

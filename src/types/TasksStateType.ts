@@ -1,5 +1,5 @@
-import {TaskType} from "./TaskType";
+import {TaskTypeResponse} from "../api/todoListApi";
 
 export type TasksStateType = {
-    [todoListID: string]: TaskType[];
+    [todoListID: string]: TaskTypeResponse[];
 }

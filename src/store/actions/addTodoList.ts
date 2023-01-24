@@ -1,7 +1,9 @@
+import {TodoListResponseType} from "../../api/todoListApi";
+
 export type AddTodoListAT = {
     type: 'ADD_TODOLIST'
-    id: string
-    title: string
+    todoList: TodoListResponseType
+
 }
 
-export const addTodoListAC = (id: string, title: string): AddTodoListAT => ({type: 'ADD_TODOLIST', id, title} as const)
+export const addTodoListAC = (todoList: TodoListResponseType): AddTodoListAT => ({type: 'ADD_TODOLIST', todoList} as const)

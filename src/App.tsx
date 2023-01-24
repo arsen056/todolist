@@ -1,49 +1,54 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {Todolist} from "./components/Todolist/Todolist";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./store";
-import {TodoListStateType} from "./types/TodoListStateType";
-import {selectTodoLists} from "./store/selectors/";
+import {useSelector} from "react-redux";
+import {AppDispatch, AppRootState} from "./store";
+import {selectStatus} from "./store/selectors/";
 import Header from "./components/Header/Header";
-import {Paper, Container, Grid} from "@mui/material";
+import {Paper, Container, Grid, LinearProgress} from "@mui/material";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {addTodoListAC} from "./store/actions/addTodoList";
-import {v1} from "uuid";
+import {addTodoListTC, fetchTodoListsTC} from "./store/reducers/todoListReducer";
+import {StatusType} from "./types";
+import {CustomizedSnackbars} from "./components/SnackBar/CustomizedSnackbars";
+import {Auth} from './features/Auth/Auth'
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Todolists} from "./components/Todolist/Todolists";
+import {Progress} from "./components/Progress/Progress";
+import {initializedAppTC} from "./store/reducers/appReducer";
 
 function App() {
+    const status = useSelector<AppRootState, StatusType>(selectStatus)
+    const dispatch = AppDispatch();
 
-  const todoLists = useSelector<AppRootState, TodoListStateType>(selectTodoLists)
-  const dispatch = useDispatch();
+    const isInit = useSelector<AppRootState, boolean>(state => state.app.initialized)
 
-  const addTodoList = (title: string) => dispatch(addTodoListAC(v1(), title))
+    useEffect(() => {
+        dispatch(initializedAppTC())
+    }, [])
 
-  const todoListMap = todoLists.length ? todoLists.map(t => {
-      return (
-          <Grid item xs={12} md={4}>
-              <Paper elevation={5} sx={{
-                  width: 350,
-                  padding: '1rem'
-          }}>
-              <Todolist key={t.id} todoList={t}/>
-            </Paper>
-          </Grid>
-      )
-  }) : <div>Add your first Todolist!</div>
+    if (!isInit) {
+        return <div>
+            <Progress/>
+        </div>
+    }
 
-  return (
-      <>
-        <Header/>
+    return (
+        <>
+            <BrowserRouter>
+                <Header/>
+                {status === 'loading' && <LinearProgress/>}
+                <CustomizedSnackbars/>
 
-        <Container sx={{padding: '1.5rem 0'}}>
-            <AddItemForm addItem={addTodoList} label={'Enter todo list title'}/>
-            <Grid container spacing={2}>
-                {todoListMap}
-            </Grid>
-        </Container>
-      </>
+                        <Routes>
+                            <Route path='/' element={ <Todolists/> } />
+                            <Route path='/auth' element={ <Auth/> }/>
+                            <Route path='/404' element={ <h1>Page not found</h1> }/>
+                            <Route path='*' element={ <Navigate to='/404' /> }/>
+                        </Routes>
 
-  );
+
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;
