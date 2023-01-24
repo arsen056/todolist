@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Formik} from 'formik';
+import {Formik, Field} from 'formik';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +17,7 @@ import {AppDispatch, AppRootState} from "../../store";
 import {authTC} from "./AuthReducer";
 import {useSelector} from "react-redux";
 import {Navigate, useNavigate} from "react-router-dom";
+import {AuthType} from "../../api/todoListApi";
 
 type ErrorType = {
     email?: string
@@ -43,12 +44,12 @@ export const Auth = () => {
     const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
 
     if (isLogged) {
-        return <Navigate to={'/'}/>
+        return <Navigate to={'/todolist'}/>
     }
 
     return (
         <ThemeProvider theme={theme}>
-            <Formik initialValues={{email: '', password: '', remember: false}}
+            <Formik initialValues={{email: '', password: '', rememberMe: []}}
                     validate={values => {
                         const errors: ErrorType = {};
                         if (!values.email) {
@@ -62,8 +63,9 @@ export const Auth = () => {
                     }}
 
                     onSubmit={(values, {setSubmitting}) => {
-                        console.log(values)
-                        dispatch(authTC(values))
+                        const valuesToApi = {...values, rememberMe: values.rememberMe.length ? !!values.rememberMe[0] : false}
+                        console.log(valuesToApi)
+                        dispatch(authTC(valuesToApi))
                     }}>
 
                 {({
@@ -119,7 +121,7 @@ export const Auth = () => {
                                     autoComplete="current-password"
                                 />
                                 <FormControlLabel
-                                    control={<Checkbox name="remember" value="remember" color="primary"/>}
+                                    control={<Field type="checkbox" name="rememberMe" value="rememberMe" color="primary"/>}
                                     label="Remember me"
                                 />
 

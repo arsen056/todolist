@@ -39,7 +39,7 @@ function App() {
                 <CustomizedSnackbars/>
 
                         <Routes>
-                            <Route path='/' element={ <Todolists/> } />
+                            <Route path='/todolist' element={ <Todolists/> } />
                             <Route path='/auth' element={ <Auth/> }/>
                             <Route path='/404' element={ <h1>Page not found</h1> }/>
                             <Route path='*' element={ <Navigate to='/404' /> }/>

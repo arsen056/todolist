@@ -8,7 +8,6 @@ import {selectTodoLists} from "../../store/selectors";
 import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import {addTodoListTC, fetchTodoListsTC} from "../../store/reducers/todoListReducer";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Auth} from "../../features/Auth/Auth";
 
 export const Todolists = () => {
 
