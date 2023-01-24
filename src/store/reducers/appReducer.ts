@@ -37,5 +37,18 @@ export const initializedAppTC = ():AppThunk => async dispatch => {
     }
 }
 
+export const logOutTC = ():AppThunk => async dispatch => {
+    try {
+        const res = await AuthAPI.logOut();
+        dispatch(setInitializedAC(true))
+        if (res.data.resultCode === 0) {
+            dispatch(setLoggedInAC(false))
+            return
+        }
+        dispatch(appSetErrorAC(res.data.messages[0]))
+    } catch (error: any) {
+        dispatch(appSetErrorAC(error.message))
+    }
+}
 
 export type AppActionType = ReturnType<typeof AppSetStatusAC> | ReturnType<typeof appSetErrorAC> | ReturnType<typeof setInitializedAC>

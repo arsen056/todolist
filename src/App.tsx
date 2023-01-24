@@ -3,10 +3,8 @@ import './App.css';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "./store";
 import {selectStatus} from "./store/selectors/";
-import Header from "./components/Header/Header";
-import {Paper, Container, Grid, LinearProgress} from "@mui/material";
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {addTodoListTC, fetchTodoListsTC} from "./store/reducers/todoListReducer";
+import {Header} from "./components/Header/Header";
+import {LinearProgress} from "@mui/material";
 import {StatusType} from "./types";
 import {CustomizedSnackbars} from "./components/SnackBar/CustomizedSnackbars";
 import {Auth} from './features/Auth/Auth'
