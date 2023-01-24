@@ -37,15 +37,12 @@ function App() {
                 <Header/>
                 {status === 'loading' && <LinearProgress/>}
                 <CustomizedSnackbars/>
-
                         <Routes>
                             <Route path='/todolist' element={ <Todolists/> } />
-                            <Route path='/auth' element={ <Auth/> }/>
+                            <Route path='/todolist/auth' element={ <Auth/> }/>
                             <Route path='/404' element={ <h1>Page not found</h1> }/>
                             <Route path='*' element={ <Navigate to='/404' /> }/>
                         </Routes>
-
-
             </BrowserRouter>
         </>
     );

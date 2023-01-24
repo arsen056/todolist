@@ -18,6 +18,7 @@ import {authTC} from "./AuthReducer";
 import {useSelector} from "react-redux";
 import {Navigate, useNavigate} from "react-router-dom";
 import {AuthType} from "../../api/todoListApi";
+import {FormLabel} from "@mui/material";
 
 type ErrorType = {
     email?: string
@@ -89,6 +90,11 @@ export const Auth = () => {
                                     alignItems: 'center',
                                 }}
                             >
+                                <FormLabel>
+                                    <p>Email: free@samuraijs.com</p>
+                                    <p>Password: free</p>
+                                </FormLabel>
+
                                 <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                                     <LockOutlinedIcon/>
                                 </Avatar>

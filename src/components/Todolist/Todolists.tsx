@@ -23,7 +23,6 @@ export const Todolists = () => {
         dispatch(fetchTodoListsTC())
     }, [])
 
-
     const addTodoList = (title: string) => dispatch(addTodoListTC(title))
 
     const todoListMap = todoLists.length ? todoLists.map(t => {
@@ -39,7 +38,7 @@ export const Todolists = () => {
     }) : <div>Add your first Todolist!</div>
 
     if (!isLogged) {
-        return <Navigate to={'/auth'}/>
+        return <Navigate to={'/todolist/auth'}/>
     }
 
     return (
