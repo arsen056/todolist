@@ -8,7 +8,7 @@ import {LinearProgress} from "@mui/material";
 import {StatusType} from "./types";
 import {CustomizedSnackbars} from "./components/SnackBar/CustomizedSnackbars";
 import {Auth} from './features/Auth/Auth'
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Todolists} from "./components/Todolist/Todolists";
 import {Progress} from "./components/Progress/Progress";
 import {initializedAppTC} from "./store/reducers/appReducer";
@@ -31,17 +31,17 @@ function App() {
 
     return (
         <>
-            <BrowserRouter>
+            <HashRouter>
                 <Header/>
                 {status === 'loading' && <LinearProgress/>}
                 <CustomizedSnackbars/>
                         <Routes>
-                            <Route path='/todolist' element={ <Todolists/> } />
-                            <Route path='/todolist/auth' element={ <Auth/> }/>
+                            <Route path='/' element={ <Auth/> }/>
+                            <Route path='/todo' element={ <Todolists/> } />
                             <Route path='/404' element={ <h1>Page not found</h1> }/>
-                            <Route path='*' element={ <Navigate to='/404' /> }/>
+                            <Route path='/*' element={ <Navigate to='/404' /> }/>
                         </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </>
     );
 }

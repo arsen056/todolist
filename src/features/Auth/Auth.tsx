@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -16,7 +15,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {AppDispatch, AppRootState} from "../../store";
 import {authTC} from "./AuthReducer";
 import {useSelector} from "react-redux";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {AuthType} from "../../api/todoListApi";
 import {FormLabel} from "@mui/material";
 
@@ -45,7 +44,7 @@ export const Auth = () => {
     const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
 
     if (isLogged) {
-        return <Navigate to={'/todolist'}/>
+        return <Navigate to={'/todo'}/>
     }
 
     return (
@@ -64,8 +63,7 @@ export const Auth = () => {
                     }}
 
                     onSubmit={(values, {setSubmitting}) => {
-                        const valuesToApi = {...values, rememberMe: values.rememberMe.length ? !!values.rememberMe[0] : false}
-                        console.log(valuesToApi)
+                        const valuesToApi: AuthType = {...values, rememberMe: values.rememberMe.length ? !!values.rememberMe[0] : false}
                         dispatch(authTC(valuesToApi))
                     }}>
 

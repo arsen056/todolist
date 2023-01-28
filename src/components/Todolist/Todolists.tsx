@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../store";
 import {TodoListsType} from "../../types/TodoListStateType";
 import {selectTodoLists} from "../../store/selectors";
-import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {addTodoListTC, fetchTodoListsTC} from "../../store/reducers/todoListReducer";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 
@@ -22,6 +22,10 @@ export const Todolists = () => {
         }
         dispatch(fetchTodoListsTC())
     }, [])
+
+  if (!isLogged) {
+    return <Navigate to={'/'}/>
+  }
 
     const addTodoList = (title: string) => dispatch(addTodoListTC(title))
 
