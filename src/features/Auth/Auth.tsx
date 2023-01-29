@@ -5,8 +5,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -18,23 +16,8 @@ import {useSelector} from "react-redux";
 import {Navigate} from "react-router-dom";
 import {AuthType} from "../../api/todoListApi";
 import {FormLabel} from "@mui/material";
+import {StatusType} from "../../types";
 
-type ErrorType = {
-    email?: string
-}
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const theme = createTheme();
 
@@ -42,6 +25,7 @@ export const Auth = () => {
 
     const dispatch = AppDispatch()
     const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
+    const appStatus = useSelector<AppRootState, StatusType>(state => state.app.status)
 
     if (isLogged) {
         return <Navigate to={'/todo'}/>
@@ -50,21 +34,10 @@ export const Auth = () => {
     return (
         <ThemeProvider theme={theme}>
             <Formik initialValues={{email: '', password: '', rememberMe: []}}
-                    validate={values => {
-                        const errors: ErrorType = {};
-                        if (!values.email) {
-                            errors.email = 'Required';
-                        } else if (
-                            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                        ) {
-                            errors.email = 'Invalid email address';
-                        }
-                        return errors;
-                    }}
-
                     onSubmit={(values, {setSubmitting}) => {
                         const valuesToApi: AuthType = {...values, rememberMe: values.rememberMe.length ? !!values.rememberMe[0] : false}
                         dispatch(authTC(valuesToApi))
+                        setSubmitting(false)
                     }}>
 
                 {({
@@ -124,6 +97,7 @@ export const Auth = () => {
                                     onChange={handleChange}
                                     autoComplete="current-password"
                                 />
+                              {errors.email}
                                 <FormControlLabel
                                     control={<Field type="checkbox" name="rememberMe" value="rememberMe" color="primary"/>}
                                     label="Remember me"
@@ -134,29 +108,15 @@ export const Auth = () => {
                                     fullWidth
                                     variant="contained"
                                     sx={{mt: 3, mb: 2}}
-                                    disabled={isSubmitting}
+                                    disabled={appStatus === "loading"}
                                 >
                                     Sign In
                                 </Button>
 
-                                <Grid container>
-                                    <Grid item xs>
-                                        <Link href="#" variant="body2">
-                                            Forgot password?
-                                        </Link>
-                                    </Grid>
-                                    <Grid item>
-                                        <Link href="#" variant="body2">
-                                            {"Don't have an account? Sign Up"}
-                                        </Link>
-                                    </Grid>
-                                </Grid>
                             </Box>
-                            <Copyright sx={{mt: 8, mb: 4}}/>
                         </form>
                     </Container>
                 )}
-
             </Formik>
         </ThemeProvider>
     );
