@@ -1,4 +1,4 @@
-import {TaskTypeResponse} from "../../api/todoListApi";
+import {TaskTypeResponse} from "api/todoListApi";
 
 export type SetTasksAT = {
     type: 'SET_TASKS'

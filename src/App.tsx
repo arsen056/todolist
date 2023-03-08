@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import './App.css';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "store";
 import {selectStatus} from "store/selectors/";

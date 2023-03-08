@@ -34,7 +34,6 @@ export const initializedAppTC = ():AppThunk => async dispatch => {
             dispatch(setLoggedInAC(true))
             return
         }
-        dispatch(appSetErrorAC({error: res.data.messages[0]}))
     } catch (error: any) {
         dispatch(appSetErrorAC(error.message))
     }
