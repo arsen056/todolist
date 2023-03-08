@@ -1,18 +1,17 @@
 import React, {FC, memo, useCallback, useEffect} from 'react';
 import {useSelector} from "react-redux";
-import {AppDispatch, AppRootState} from "../../store";
-import {FilterType} from "../../types";
+import {AppDispatch, AppRootState} from "store";
+import {FilterType} from "types";
 import {Task} from "../Task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {changeFilterAC} from "../../store/actions";
 import {Box, Button, IconButton, Paper, Typography} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import styled from "styled-components";
-import {selectTasks} from "../../store/selectors";
-import {TaskStatuses, TaskTypeResponse} from "../../api/todoListApi";
-import {TodoListStateType} from "../../types/TodoListStateType";
-import {addTaskTC, fetchTasksTC} from "../../store/reducers/tasksReducer";
-import {changeTodoListTitleTC, removeTodoListTC} from "../../store/reducers/todoListReducer";
+import {selectTasks} from "store/selectors";
+import {TaskStatuses, TaskTypeResponse} from "api/todoListApi";
+import {TodoListStateType} from "types/TodoListStateType";
+import {addTaskTC, fetchTasksTC} from "store/reducers/tasksReducer";
+import {changeFilterAC, changeTodoListTitleTC, removeTodoListTC} from "store/reducers/todoListReducer";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Progress} from "../Progress/Progress";
 
@@ -52,7 +51,7 @@ export const Todolist:FC<TodoListPropsType> = memo(({todoList}) => {
         )
     }) : 'Enter your tasks!'
 
-    const changeFilter = (filter: FilterType) => dispatch(changeFilterAC(id, filter))
+    const changeFilter = (filter: FilterType) => dispatch(changeFilterAC({todoListID: id, filter}))
     const removeTodoList = () => dispatch(removeTodoListTC(id))
 
     const addTask = useCallback((title: string) => {
@@ -60,7 +59,7 @@ export const Todolist:FC<TodoListPropsType> = memo(({todoList}) => {
     },[dispatch])
 
     const changeTodoListTitle = (title: string) => {
-        dispatch(changeTodoListTitleTC(id, title))
+        dispatch(changeTodoListTitleTC({todoListID: id, title}))
     }
 
     return (

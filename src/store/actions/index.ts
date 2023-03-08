@@ -1,16 +1,9 @@
 export {addTaskAC} from './addTask'
-export {addTodoListAC} from './addTodoList'
-export {changeFilterAC} from './changeFilter'
+
 export {updateTaskAC} from './updateTaskAT'
 export {deleteTaskAC} from './deleteTask'
-export {removeTodoListAC} from './removeTodoList'
-export {setTodoListAC} from './setTodoList'
+
 
 export type {AddTaskAT} from './addTask'
 export type {UpdateTaskAT} from './updateTaskAT'
-export type {RemoveTodoListAT} from './removeTodoList'
-export type {AddTodoListAT} from './addTodoList'
 export type {DeleteTaskAT} from './deleteTask'
-export type {ChangeFilterAT} from './changeFilter'
-export type {SetTodoListAT} from './setTodoList'
-export type {SetEntityStatusAT} from './setEntityStatus'
