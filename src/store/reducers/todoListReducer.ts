@@ -1,16 +1,17 @@
-import {TodoListStateType, TodoListsType} from "../../types/TodoListStateType";
+import {TodoListStateType, TodoListsType} from "types/TodoListStateType";
 import {
     RemoveTodoListAT,
     AddTodoListAT,
     ChangeFilterAT,
     SetTodoListAT,
     setTodoListAC,
-    removeTodoListAC, addTodoListAC, AppSetStatusAC, SetEntityStatusAT
+    removeTodoListAC, addTodoListAC, SetEntityStatusAT
 } from "../actions";
-import {todoListAPI} from "../../api/todoListApi";
+import {todoListAPI} from "api/todoListApi";
 import {changeTodoListTitleAC, ChangeTodoListTitleAT} from "../actions/changeTodoListTitle";
 import {AppThunk} from "../index";
 import {setEntityStatusAC} from "../actions/setEntityStatus";
+import {AppSetStatusAC} from "store/reducers/appReducer";
 
 const initialState: TodoListsType = []
 
@@ -37,25 +38,25 @@ export const todoListReducer = (state=initialState, action:TodoListActionType): 
 }
 
 export const fetchTodoListsTC = (): AppThunk => async dispatch => {
-    dispatch(AppSetStatusAC('loading'))
+    dispatch(AppSetStatusAC({status: 'loading'}))
     const res = await todoListAPI.getTodolists()
     dispatch(setTodoListAC(res.data))
-    dispatch(AppSetStatusAC('succeeded'))
+    dispatch(AppSetStatusAC({status: 'succeeded'}))
 }
 
 export const addTodoListTC = (title: string):AppThunk => async dispatch => {
-    dispatch(AppSetStatusAC('loading'))
+    dispatch(AppSetStatusAC({status: 'loading'}))
     const res = await todoListAPI.createTodolist(title)
     dispatch(addTodoListAC(res.data.item))
-    dispatch(AppSetStatusAC('succeeded'))
+    dispatch(AppSetStatusAC({status: 'succeeded'}))
 }
 
 export const removeTodoListTC = (todoListID: string): AppThunk => async dispatch => {
     dispatch(setEntityStatusAC(todoListID, 'loading'))
-    dispatch(AppSetStatusAC('loading'))
+    dispatch(AppSetStatusAC({status: 'loading'}))
     await todoListAPI.deleteTodolist(todoListID)
     dispatch(removeTodoListAC(todoListID))
-    dispatch(AppSetStatusAC('succeeded'))
+    dispatch(AppSetStatusAC({status: 'succeeded'}))
 }
 
 export const changeTodoListTitleTC = (todoListID: string, title: string): AppThunk => async dispatch => {

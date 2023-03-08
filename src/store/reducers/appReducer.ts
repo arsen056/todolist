@@ -1,8 +1,8 @@
-import {AppStatusType} from "../../types";
-import {appSetErrorAC, AppSetStatusAC, setInitializedAC} from "../actions";
+import {AppStatusType, StatusType} from "types";
 import {AppThunk} from "../index";
-import {AuthAPI} from "../../api/todoListApi";
-import {setLoggedInAC} from "../../features/Auth/AuthReducer";
+import {AuthAPI} from "api/todoListApi";
+import {setLoggedInAC} from "features/Auth/AuthReducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: AppStatusType = {
     initialized: false,
@@ -10,28 +10,31 @@ const initialState: AppStatusType = {
     error: null
 }
 
-export const appReducer = (state = initialState, action: AppActionType) => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        case 'APP/SET_INITIALIZED':
-            return {...state, initialized: action.value}
-        default:
-            return {...state}
+export const appSlice = createSlice({
+    name: 'app',
+    initialState,
+    reducers: {
+        AppSetStatusAC: (state, action: PayloadAction<{status: StatusType}>) => {
+            state.status = action.payload.status
+        },
+        appSetErrorAC: (state, action: PayloadAction<{error: string | null}>) => {
+            state.error = action.payload.error
+        },
+        setInitializedAC: (state, action: PayloadAction<{initialized: boolean}>) => {
+            state.initialized = action.payload.initialized
+        }
     }
-}
+})
 
 export const initializedAppTC = ():AppThunk => async dispatch => {
     try {
         const res = await AuthAPI.me();
-        dispatch(setInitializedAC(true))
+        dispatch(setInitializedAC({initialized: true}))
         if (res.data.resultCode === 0) {
             dispatch(setLoggedInAC(true))
             return
         }
-        dispatch(appSetErrorAC(res.data.messages[0]))
+        dispatch(appSetErrorAC({error: res.data.messages[0]}))
     } catch (error: any) {
         dispatch(appSetErrorAC(error.message))
     }
@@ -40,15 +43,18 @@ export const initializedAppTC = ():AppThunk => async dispatch => {
 export const logOutTC = ():AppThunk => async dispatch => {
     try {
         const res = await AuthAPI.logOut();
-        dispatch(setInitializedAC(true))
+        dispatch(setInitializedAC({initialized: true}))
         if (res.data.resultCode === 0) {
             dispatch(setLoggedInAC(false))
             return
         }
-        dispatch(appSetErrorAC(res.data.messages[0]))
+        dispatch(appSetErrorAC({error: res.data.messages[0]}))
     } catch (error: any) {
         dispatch(appSetErrorAC(error.message))
     }
 }
 
 export type AppActionType = ReturnType<typeof AppSetStatusAC> | ReturnType<typeof appSetErrorAC> | ReturnType<typeof setInitializedAC>
+
+export const {AppSetStatusAC, appSetErrorAC ,setInitializedAC} = appSlice.actions
+export const appReducer = appSlice.reducer

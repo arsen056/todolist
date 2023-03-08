@@ -1,1 +1,0 @@
-export const setInitializedAC = (value: boolean) =>({type: 'APP/SET_INITIALIZED', value} as const)

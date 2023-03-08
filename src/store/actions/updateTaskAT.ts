@@ -1,4 +1,4 @@
-import {UpdateTaskDomainModelType} from "../../api/todoListApi";
+import {UpdateTaskDomainModelType} from "api/todoListApi";
 
 export type UpdateTaskAT = {
     type: 'UPDATE_TASK'
