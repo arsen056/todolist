@@ -7,7 +7,6 @@ import {FilterType, StatusType} from "types";
 
 const initialState: TodoListsType = []
 
-
 const slice = createSlice({
   name: 'todoList',
   initialState,
